@@ -5,44 +5,176 @@
 
 using namespace std;
 
+template <class T>
 class Node {
 public:
-    Node(int);
+    Node(T);
 
-    int data;
+    T data;
     Node *rChild;
     Node *lChild;
 };
 
-typedef struct Node Node;
-
+template <class T>
 class BST {
 public:
     BST();
 
     //Helper functions for the recursive
-    void insert(int);
+    void insert(T);
 
-    void remove(int);
+    void remove(T);
 
-    bool contains(int) const;
+    bool contains(T) const;
 
     ~BST();
 
 private:
-    Node *leftRotate(Node *);
+    Node<T> *leftRotate(Node<T> *);
 
-    Node *rightRotate(Node *);
+    Node<T> *rightRotate(Node<T> *);
 
-    Node *insert(Node *, int);
+    Node<T> *insert(Node<T> *, T);
 
-    Node *remove(Node *, int);
+    Node<T> *remove(Node<T> *, T);
 
-    bool contains(Node *, int) const;
+    bool contains(Node<T> *, T) const;
 
-    Node *root;
+    Node<T> *root;
 
 
 };
+
+#include "bst.h"
+template <class T>
+Node<T>::Node(T data) {
+    this->data = data;
+    lChild = nullptr;
+    rChild = nullptr;
+}
+
+template <class T>
+BST<T>::BST() {
+    root = nullptr;
+}
+
+template <class T>
+void BST<T>::insert(T data) {
+    root = insert(root, data);
+}
+
+template <class T>
+void BST<T>::remove(T data) {
+    root = remove(root, data);
+}
+
+template <class T>
+bool BST<T>::contains(T data) const {
+    contains(root, data);
+}
+
+template <class T>
+Node<T> *BST<T>::rightRotate(Node<T> *root) {
+    Node<T> *pivot = root->lChild;
+    root->lChild = pivot->rChild;
+    pivot->rChild = root;
+    root = pivot;
+    return root;
+}
+
+template <class T>
+Node<T> *BST<T>::leftRotate(Node<T> *root) {
+    Node<T> *pivot = root->rChild;
+    root->rChild = pivot->lChild;
+    pivot->lChild = root;
+    root = pivot;
+    return root;
+}
+
+template <class T>
+Node<T> *BST<T>::insert(Node<T> *root, T data) {
+    //We've found an empty node, put it here!
+    if (root == nullptr)
+        return new Node<T>(data);
+
+    //We don't allow duplicate values, pass root back up the chain
+    if (root->data == data)
+        return root;
+
+    //Does the data go left or right?
+    if (root->data > data)
+        root->lChild = insert(root->lChild, data);
+    else
+        root->rChild = insert(root->rChild, data);
+
+    //Pass back up the recursive chain
+    return root;
+}
+
+template <class T>
+Node<T> *BST<T>::remove(Node<T> *root, T data) {
+    //Not found! Pass nullptr back up the chain
+    if (root == nullptr)
+        return nullptr;
+
+    if (root->data == data) {
+        //Leaf node! Kill it!
+        if (root->lChild == nullptr && root->rChild == nullptr) {
+            //Free the memory and pass nullptr back up the chain
+            delete root;
+            return nullptr;
+        }
+            //Only a left child
+        else if (root->rChild == nullptr) {
+            root = rightRotate(root);
+            root->rChild = remove(root->rChild, data);
+
+        }
+            //Only a right child
+        else if (root->lChild == nullptr) {
+            root = leftRotate(root);
+            root->lChild = remove(root->lChild, data);
+        }
+            //Two children, arbitrary design choice to right rotate
+        else {
+            root = rightRotate(root);
+            root->rChild = remove(root->rChild, data);
+        }
+    }
+
+    //Could it be to the left or right?
+    if (root->data > data)
+        root->lChild = remove(root->lChild, data);
+    else
+        root->rChild = remove(root->rChild, data);
+
+    //Pass this back up the recursion chain
+    return root;
+}
+
+template <class T>
+bool BST<T>::contains(Node<T> *root, T data) const {
+    //It isn't here!
+    if (root == nullptr)
+        return false;
+
+    //Got it!
+    if (root->data == data)
+        return true;
+
+    //Could it possibly be to the left or to the right?
+    if (root->data > data)
+        return contains(root->lChild, data);
+    else
+        return contains(root->rChild, data);
+}
+
+//Warning: Not functional!
+template <class T>
+BST<T>::~BST() {
+    //Continually remove root until there is no more root.
+    while (root != nullptr)
+        remove(root->data);
+}
 
 #endif
