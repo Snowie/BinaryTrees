@@ -27,6 +27,38 @@ bool BST::contains(int data) const
     contains(root, data);
 }
 
+Node * BST::rightRotate(Node * root)
+{
+    Node * oldRoot = root;
+
+    //Set the root to the old left child
+    root = oldRoot->lChild;
+
+    //New root's right child is the old root
+    root->rChild = oldRoot;
+
+    //New root's left child is old root's left child's right child
+    root->lChild = oldRoot->lChild->rChild;
+
+    return root;
+}
+
+Node * BST::leftRotate(Node * root)
+{
+    Node * oldRoot = root;
+
+    //The new root is the old root's right child
+    root = oldRoot->rChild;
+
+    //The new root's left child is the old root
+    root->lChild = oldRoot;
+
+    //The new root's right child is the old root's right child's left child
+    root->rChild = oldRoot->rChild->lChild;
+
+    return root;
+}
+
 Node * BST::insert(Node * node, int data)
 {
     //We've found an empty node, put it here!
