@@ -7,6 +7,11 @@ Node::Node(int data)
     rChild = nullptr;
 }
 
+BST::BST()
+{
+    root = nullptr;
+}
+
 void BST::insert(int data)
 {
     root = insert(root, data);

@@ -1,5 +1,7 @@
 #ifndef BST_H
 #define BST_H
+#include <iostream>
+using namespace std;
 class Node
 {
     public:
@@ -14,6 +16,7 @@ class BST
 {
     public:
         //Helper functions for the recursive
+        BST();
         void insert(int);
         void remove(int);
         bool contains(int) const;
