@@ -29,81 +29,102 @@ bool BST::contains(int data) const
 
 Node * BST::rightRotate(Node * root)
 {
-    Node * oldRoot = root;
-
-    //Set the root to the old left child
-    root = oldRoot->lChild;
-
-    //New root's right child is the old root
-    root->rChild = oldRoot;
-
-    //New root's left child is old root's left child's right child
-    root->lChild = oldRoot->lChild->rChild;
-
+    Node * pivot = root->lChild;
+    root->lChild = pivot->rChild;
+    pivot->rChild = root;
+    root = pivot;
     return root;
 }
 
 Node * BST::leftRotate(Node * root)
 {
-    Node * oldRoot = root;
+    Node * pivot = root->rChild;
+    root->rChild = pivot->lChild;
+    pivot->lChild = root;
+    root = pivot;
+    return root;
+}
 
-    //The new root is the old root's right child
-    root = oldRoot->rChild;
+Node * BST::insert(Node * root, int data)
+{
+    //We've found an empty node, put it here!
+    if(root == nullptr)
+        return new Node(data);
 
-    //The new root's left child is the old root
-    root->lChild = oldRoot;
+    //We don't allow duplicate values
+    if(root->data == data)
+        return root;
 
-    //The new root's right child is the old root's right child's left child
-    root->rChild = oldRoot->rChild->lChild;
+    //Does the data go left or right?
+    if(root->data > data)
+        root->lChild = insert(root->lChild, data);
+    else
+        root->rChild = insert(root->rChild, data);
 
     return root;
 }
 
-Node * BST::insert(Node * node, int data)
+Node * BST::remove(Node * root, int data)
 {
-    //We've found an empty node, put it here!
-    if(node == nullptr)
-        return new Node(data);
-
-    //We don't allow duplicate values
-    if(node->data == data)
+    //Not found!
+    if(root == nullptr)
         return nullptr;
 
-    //Does the data go left or right?
-    if(node->data > data)
-        node->lChild = insert(node->lChild, data);
+    if(root->data == data) {
+        //Leaf node! Kill it!
+        if(root->lChild == nullptr && root->rChild == nullptr)
+        {
+            delete root;
+            return nullptr;
+        }
+        //Only a left child
+        else if(root->rChild == nullptr)
+        {
+            root = rightRotate(root);
+            root->rChild = remove(root->rChild, data);
+
+        }
+        //Only a right child
+        else if(root->lChild == nullptr) {
+            root = leftRotate(root);
+            root->lChild = remove(root->lChild, data);
+        }
+        //Two children, arbitrary design choice to right rotate
+        else
+        {
+            root = rightRotate(root);
+            root->rChild = remove(root->rChild, data);
+        }
+    }
+
+    if(root->data > data)
+        root->lChild = remove(root->lChild, data);
     else
-        node->rChild = insert(node->rChild, data);
+        root->rChild = remove(root->rChild, data);
 
-    return node;
+    return root;
 }
 
-Node * BST::remove(Node * node, int data)
-{
-    //TODO: Implement, include rotations
-    return nullptr;
-}
-
-bool BST::contains(Node * node, int data) const
+bool BST::contains(Node * root, int data) const
 {
     //It isn't here!
-    if(node == nullptr)
+    if(root == nullptr)
         return false;
 
     //Got it!
-    if(node->data == data)
+    if(root->data == data)
         return true;
 
     //Could it possibly be to the left or to the right?
-    if(node->data > data)
-        return contains(node->lChild, data);
+    if(root->data > data)
+        return contains(root->lChild, data);
     else
-        return contains(node->rChild, data);
+        return contains(root->rChild, data);
 }
 
 //Warning: Not functional!
 BST::~BST()
 {
-    /*while(root != nullptr)
-        remove(root->data);*/
+    while(root != nullptr)
+        remove(root->data);
 }
