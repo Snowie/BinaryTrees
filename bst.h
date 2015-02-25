@@ -1,22 +1,12 @@
 #ifndef BST_H
 #define BST_H
-
+#include "binarytree.h"
 #include <iostream>
 
 using namespace std;
 
 template <class T>
-class Node {
-public:
-    Node(T);
-
-    T data;
-    Node *rChild;
-    Node *lChild;
-};
-
-template <class T>
-class BST {
+class BST : public BinaryTree<T>{
 public:
     BST();
 
@@ -30,9 +20,6 @@ public:
     ~BST();
 
 private:
-    Node<T> *leftRotate(Node<T> *);
-
-    Node<T> *rightRotate(Node<T> *);
 
     Node<T> *insert(Node<T> *, T);
 
@@ -40,55 +27,26 @@ private:
 
     bool contains(Node<T> *, T) const;
 
-    Node<T> *root;
-
-
 };
-
-#include "bst.h"
-template <class T>
-Node<T>::Node(T data) {
-    this->data = data;
-    lChild = nullptr;
-    rChild = nullptr;
-}
 
 template <class T>
 BST<T>::BST() {
-    root = nullptr;
+    ;
 }
 
 template <class T>
 void BST<T>::insert(T data) {
-    root = insert(root, data);
+    this->root = insert(this->root, data);
 }
 
 template <class T>
 void BST<T>::remove(T data) {
-    root = remove(root, data);
+    this->root = remove(this->root, data);
 }
 
 template <class T>
 bool BST<T>::contains(T data) const {
-    contains(root, data);
-}
-
-template <class T>
-Node<T> *BST<T>::rightRotate(Node<T> *root) {
-    Node<T> *pivot = root->lChild;
-    root->lChild = pivot->rChild;
-    pivot->rChild = root;
-    root = pivot;
-    return root;
-}
-
-template <class T>
-Node<T> *BST<T>::leftRotate(Node<T> *root) {
-    Node<T> *pivot = root->rChild;
-    root->rChild = pivot->lChild;
-    pivot->lChild = root;
-    root = pivot;
-    return root;
+    contains(this->root, data);
 }
 
 template <class T>
@@ -126,18 +84,18 @@ Node<T> *BST<T>::remove(Node<T> *root, T data) {
         }
             //Only a left child
         else if (root->rChild == nullptr) {
-            root = rightRotate(root);
+            root = this->rightRotate(root);
             root->rChild = remove(root->rChild, data);
 
         }
             //Only a right child
         else if (root->lChild == nullptr) {
-            root = leftRotate(root);
+            root = this->leftRotate(root);
             root->lChild = remove(root->lChild, data);
         }
             //Two children, arbitrary design choice to right rotate
         else {
-            root = rightRotate(root);
+            root = this->rightRotate(root);
             root->rChild = remove(root->rChild, data);
         }
     }
@@ -169,12 +127,11 @@ bool BST<T>::contains(Node<T> *root, T data) const {
         return contains(root->rChild, data);
 }
 
-//Warning: Not functional!
 template <class T>
 BST<T>::~BST() {
     //Continually remove root until there is no more root.
-    while (root != nullptr)
-        remove(root->data);
+    while (this->root != nullptr)
+        remove(this->root->data);
 }
 
 #endif

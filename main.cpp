@@ -10,8 +10,8 @@ int main() {
 
     BST <int> b;
     b.insert(7);
-    for (int i = 0; i < 10000; ++i)
-        b.insert(rand() % 10);
+    for (int i = 0; i < 1000000; ++i)
+        b.insert(rand() % 100000);
 
     cout << b.contains(20) << endl;
 
