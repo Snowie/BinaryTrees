@@ -1,12 +1,13 @@
 #ifndef BST_H
 #define BST_H
+
 #include "binarytree.h"
 #include <iostream>
 
 using namespace std;
 
-template <class T>
-class BST : public BinaryTree<T>{
+template<class T>
+class BST : public BinaryTree<T> {
 public:
     BST();
 
@@ -29,27 +30,27 @@ private:
 
 };
 
-template <class T>
-BST<T>::BST() {
+template<class T>
+BST<T>::BST() : BinaryTree<T>() {
     ;
 }
 
-template <class T>
+template<class T>
 void BST<T>::insert(T data) {
     this->root = insert(this->root, data);
 }
 
-template <class T>
+template<class T>
 void BST<T>::remove(T data) {
     this->root = remove(this->root, data);
 }
 
-template <class T>
+template<class T>
 bool BST<T>::contains(T data) const {
     contains(this->root, data);
 }
 
-template <class T>
+template<class T>
 Node<T> *BST<T>::insert(Node<T> *root, T data) {
     //We've found an empty node, put it here!
     if (root == nullptr)
@@ -69,7 +70,7 @@ Node<T> *BST<T>::insert(Node<T> *root, T data) {
     return root;
 }
 
-template <class T>
+template<class T>
 Node<T> *BST<T>::remove(Node<T> *root, T data) {
     //Not found! Pass nullptr back up the chain
     if (root == nullptr)
@@ -110,7 +111,7 @@ Node<T> *BST<T>::remove(Node<T> *root, T data) {
     return root;
 }
 
-template <class T>
+template<class T>
 bool BST<T>::contains(Node<T> *root, T data) const {
     //It isn't here!
     if (root == nullptr)
@@ -127,7 +128,7 @@ bool BST<T>::contains(Node<T> *root, T data) const {
         return contains(root->rChild, data);
 }
 
-template <class T>
+template<class T>
 BST<T>::~BST() {
     //Continually remove root until there is no more root.
     while (this->root != nullptr)
