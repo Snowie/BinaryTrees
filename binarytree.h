@@ -1,3 +1,5 @@
+#ifndef BINARYTREE_H
+#define BINARYTREE_H
 #include <math.h>
 #include <algorithm>
 template<class T>
@@ -42,9 +44,9 @@ protected:
 
     Node<T> *rightRotate(Node<T> *);
 
-    virtual Node<T> *insert(Node<T> *, T) = 0;
+    virtual Node<T> * insert(Node<T> *, T) = 0;
 
-    virtual Node<T> *remove(Node<T> *, T) = 0;
+    virtual Node<T> * remove(Node<T> *, T) = 0;
 
     virtual bool contains(Node<T> *, T) const = 0;
 
@@ -105,3 +107,5 @@ Node<T> *BinaryTree<T>::leftRotate(Node<T> *root) {
     root = pivot;
     return root;
 }
+
+#endif

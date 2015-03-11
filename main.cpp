@@ -1,5 +1,5 @@
 #include <iostream>
-#include "bst.h"
+#include "avl.h"
 #include <random>
 #include <time.h>
 
@@ -8,13 +8,10 @@ using namespace std;
 int main() {
     srand(time(0));
 
-    BST<int> b;
-    //b.insert(7);
-    //b.insert(8);
-    //b.insert(9);
-    //b.insert(6);
-    for (int i = 0; i < 1000000; ++i)
-        b.insert(rand() % 10);
+    AVL<int> b;
+
+    for (int i = 0; i < 1090090; ++i)
+        b.insert(rand() % 300985);
 
     //cout << b.contains(20) << endl;
 

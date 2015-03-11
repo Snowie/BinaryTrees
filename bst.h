@@ -20,11 +20,11 @@ public:
 
     ~BST();
 
-private:
+protected:
 
-    Node<T> *insert(Node<T> *, T);
+    Node<T> * insert(Node<T> *, T);
 
-    Node<T> *remove(Node<T> *, T);
+    Node<T> * remove(Node<T> *, T);
 
     bool contains(Node<T> *, T) const;
 
