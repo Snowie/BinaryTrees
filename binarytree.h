@@ -1,7 +1,9 @@
 #ifndef BINARYTREE_H
 #define BINARYTREE_H
+
 #include <math.h>
 #include <algorithm>
+
 template<class T>
 class Node {
 public:
@@ -44,9 +46,9 @@ protected:
 
     Node<T> *rightRotate(Node<T> *);
 
-    virtual Node<T> * insert(Node<T> *, T) = 0;
+    virtual Node<T> *insert(Node<T> *, T) = 0;
 
-    virtual Node<T> * remove(Node<T> *, T) = 0;
+    virtual Node<T> *remove(Node<T> *, T) = 0;
 
     virtual bool contains(Node<T> *, T) const = 0;
 
@@ -64,8 +66,8 @@ BinaryTree<T>::~BinaryTree() {
 }
 
 template<class T>
-int BinaryTree<T>::getHeight(Node<T> *root) const{
-    if(root == nullptr)
+int BinaryTree<T>::getHeight(Node<T> *root) const {
+    if (root == nullptr)
         return 0;
 
     return (1 + std::max(getHeight(root->lChild), getHeight(root->rChild)));
@@ -77,14 +79,14 @@ bool BinaryTree<T>::isBalanced() const {
 }
 
 template<class T>
-bool BinaryTree<T>::isBalanced(Node<T> * root) const {
-    if(root == nullptr)
+bool BinaryTree<T>::isBalanced(Node<T> *root) const {
+    if (root == nullptr)
         return true;
 
     int lHeight = getHeight(root->lChild);
     int rHeight = getHeight(root->rChild);
 
-    if(abs(lHeight - rHeight) <= 1)
+    if (abs(lHeight - rHeight) <= 1)
         return isBalanced(root->lChild) && isBalanced(root->rChild);
     else
         return false;

@@ -1,8 +1,9 @@
 #ifndef AVL_H
 #define AVL_H
 
-        
+
 #include "bst.h"
+
 template<class T>
 class AVL : public BST<T> {
 public:
@@ -16,18 +17,18 @@ public:
 private:
     void balance(Node<T> *);
 
-    Node<T>* insert(Node<T>*, T);
+    Node<T> *insert(Node<T> *, T);
 };
 
 template<class T>
-AVL<T>::AVL() : BST<T>(){
+AVL<T>::AVL() : BST<T>() {
 
 }
 
 
 template<class T>
 void AVL<T>::insert(T data) {
-    this->root = BST<T>::insert(this->root, data);
+    this->root = insert(this->root, data);
 }
 
 template<class T>
@@ -57,33 +58,33 @@ Node<T> *AVL<T>::insert(Node<T> *root, T data) {
 }
 
 template<class T>
-void AVL<T>::balance(Node<T> * root) {
+void AVL<T>::balance(Node<T> *root) {
     int balanceFactor = this->getHeight(root->lChild) - this->getHeight(root->rChild);
 
-    if(abs(balanceFactor) > 2)
+    if (abs(balanceFactor) > 2)
         cout << "Bad balance factor: " << balanceFactor << endl;
 
     //Left taller
-    if(balanceFactor == 2){
-        Node<T> * subtree = root->lChild;
+    if (balanceFactor == 2) {
+        Node<T> *subtree = root->lChild;
 
         //Subtree leaning
         int subtreeBalanceFactor = this->getHeight(subtree->lChild) - this->getHeight(subtree->rChild);
 
         //Left right case? Make left left
-        if(subtreeBalanceFactor == -1)
+        if (subtreeBalanceFactor == -1)
             this->leftRotate(subtree);
 
         this->rightRotate(root);
     }
-    //Right taller
-    else if(balanceFactor == -2){
-        Node<T> * subtree = root->rChild;
+        //Right taller
+    else if (balanceFactor == -2) {
+        Node<T> *subtree = root->rChild;
 
         int subtreeBalanceFactor = this->getHeight(subtree->lChild) - this->getHeight(subtree->rChild);
 
         //Right left case? Make right right
-        if(subtreeBalanceFactor == 1)
+        if (subtreeBalanceFactor == 1)
             this->rightRotate(subtree);
 
         this->leftRotate(root);
