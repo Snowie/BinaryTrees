@@ -46,11 +46,11 @@ protected:
 
     Node<T> *rightRotate(Node<T> *);
 
-    virtual Node<T> *insert(Node<T> *, T) = 0;
+    //virtual Node<T> *insert(Node<T> *, T) = 0;
 
-    virtual Node<T> *remove(Node<T> *, T) = 0;
+    //virtual Node<T> *remove(Node<T> *, T) = 0;
 
-    virtual bool contains(Node<T> *, T) const = 0;
+    //virtual bool contains(Node<T> *, T) const = 0;
 
     Node<T> *root;
 };
