@@ -1,5 +1,5 @@
 #include <iostream>
-//#include "avl.h"
+#include "avl.h"
 #include "huffman.h"
 #include <random>
 #include <time.h>
@@ -12,7 +12,7 @@ int main() {
     //AVL<int> b;
 
     //for (int i = 0; i < 1090090; ++i)
-        //b.insert(rand() % 300985);
+    //b.insert(rand() % 300985);
 
     //cout << b.contains(20) << endl;
 
